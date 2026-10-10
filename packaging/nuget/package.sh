@@ -72,22 +72,20 @@ EOF
 }
 
 merge() {
-    local platform="" engine="" bindings="" source=""
+    local platform="" engine="" bindings=""
     local OPTIND opt
-    local usage="Usage: $0 merge -p PLATFORM -e ENGINE_SDK -b BINDINGS_SDK [-s ENGINE_SOURCE]"
+    local usage="Usage: $0 merge -p PLATFORM -e ENGINE_SDK -b BINDINGS_SDK"
 
-    while getopts "p:e:b:s:h" opt; do
+    while getopts "p:e:b:h" opt; do
         case "$opt" in
             p) platform="$OPTARG" ;;
             e) engine="$OPTARG" ;;
             b) bindings="$OPTARG" ;;
-            s) source="$OPTARG" ;;
             h)
                 echo "$usage"
                 echo "  -p PLATFORM        Platform name, for example linux-gcc-x64"
                 echo "  -e ENGINE_SDK      Install tree of the engine"
                 echo "  -b BINDINGS_SDK    Install tree of the C# bindings"
-                echo "  -s ENGINE_SOURCE   Engine source tree (optional, for the SDL Java files)"
                 return 0
                 ;;
             *)
@@ -120,20 +118,6 @@ merge() {
     cp -a "$engine"/. "$target"/
     cp -a "$bindings"/. "$target"/
     echo "Merged into $target"
-
-    if [ -n "$source" ];
-    then
-        local sdl="Source/ThirdParty/SDL/android-project/app/src/main/java/org/libsdl/app"
-        if [ ! -d "$source/$sdl" ];
-        then
-            echo "Error: $source/$sdl is absent." >&2
-            return 1
-        fi
-        rm -rf "in/engine-source/$sdl"
-        mkdir -p "in/engine-source/$sdl"
-        cp -a "$source/$sdl"/. "in/engine-source/$sdl"/
-        echo "Copied SDL Java files into in/engine-source"
-    fi
 }
 
 create() {

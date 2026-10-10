@@ -85,12 +85,14 @@ Build the engine SDK with `URHO3D_NO_EDITOR_PLAYER_EXE=ON`.
 
 ```
 cd packaging/nuget
-./package.sh merge -p linux-gcc-x64 -e <engine sdk dir> -b <bindings sdk dir> -s <engine source dir>
+./package.sh merge -p linux-gcc-x64 -e <engine sdk dir> -b <bindings sdk dir>
 ./package.sh create -v 0.0.1-dev
 ./package.sh local-repo
 ```
 
-`merge` makes `in/rebelfork-sdk-<platform>-dll-latest/`. `create` packs the packages in `out/`.
+`merge` makes `in/rebelfork-sdk-<platform>-dll-latest/`.
+The package `rbfx.Urho3DNet` takes the SDL Java files from `share/Urho3D/Android/java` of the Windows engine SDK.
+`create` packs the packages in `out/`.
 `create` skips each package that has no input directory. If `nuget` is absent, the script uses `dotnet pack`.
 
 ## CI

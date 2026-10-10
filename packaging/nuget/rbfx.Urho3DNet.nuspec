@@ -19,7 +19,7 @@
     <files>
         <file src="build/rbfx.Urho3DNet.props" target="build/" />
         <file src="build/rbfx.Urho3DNet.targets" target="build/" />
-        <file src="in/engine-source/Source/ThirdParty/SDL/android-project/app/src/main/java/org/libsdl/app/**" target="content/"/>
+        <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/share/Urho3D/Android/java/org/libsdl/app/**" target="content/"/>
 
         <!-- Reference assemblies for compile-time (using win-x64 as reference) -->
         <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.dll" target="ref/net8.0/"/>

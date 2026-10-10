@@ -79,19 +79,11 @@ jobs:
         id: vars
         run: echo "sha_short=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_OUTPUT
 
-      - name: Checkout engine source (SDL Java files)
-        uses: actions/checkout@v5
-        with:
-          repository: ${{ env.RBFX_REPOSITORY }}
-          path: engine-source
-          fetch-depth: 1
-
       - name: Download SDKs and merge
         env:
           GH_TOKEN: ${{ github.token }}
         working-directory: packaging/nuget/
         run: |
-          first=1
           for tag in windows-msvc-x64-dll linux-gcc-x64-dll macos-clang-x64-dll macos-clang-arm64-dll; do
             work="${RUNNER_TEMP}/sdk-${tag}"
             mkdir -p "$work/engine" "$work/bindings" "$work/dl"
@@ -101,16 +93,16 @@ jobs:
               --pattern "rebelfork-csharp-sdk-${tag}-latest.7z" --dir "$work/dl"
             7z x -y "$work/dl/rebelfork-sdk-${tag}-latest.7z" -o"$work/engine" >/dev/null
             7z x -y "$work/dl/rebelfork-csharp-sdk-${tag}-latest.7z" -o"$work/bindings" >/dev/null
-            args=(-p "${tag%-dll}" \
+            ./package.sh merge -p "${tag%-dll}" \
               -e "$work/engine/rebelfork-sdk-${tag}-latest" \
-              -b "$work/bindings/rebelfork-csharp-sdk-${tag}-latest")
-            if [[ $first == 1 ]]; then
-              args+=(-s "${{ github.workspace }}/engine-source")
-              first=0
-            fi
-            ./package.sh merge "${args[@]}"
+              -b "$work/bindings/rebelfork-csharp-sdk-${tag}-latest"
             rm -rf "$work"
           done
+          # rbfx.Urho3DNet takes the SDL Java files from the Windows engine SDK.
+          if ! compgen -G "in/rebelfork-sdk-windows-msvc-x64-dll-latest/share/Urho3D/Android/java/org/libsdl/app/*.java" >/dev/null; then
+            echo "Error: the Windows engine SDK has no SDL Java files."
+            exit 1
+          fi
 
       - name: Build NuGet Packages
         working-directory: packaging/nuget/
