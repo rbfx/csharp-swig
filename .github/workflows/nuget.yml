@@ -1,3 +1,8 @@
+# NOTE: This workflow is not adapted to this repository yet.
+# It needs one engine SDK and one bindings SDK for each platform.
+# `packaging/nuget/package.sh merge` joins the two SDKs of a platform.
+# Run `merge` for each platform before `package.sh create`.
+
 name: NuGet Package Release
 
 on:

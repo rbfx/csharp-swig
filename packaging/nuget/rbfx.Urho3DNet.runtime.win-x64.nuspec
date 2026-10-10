@@ -19,5 +19,6 @@
         <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.dll" target="runtimes/win-x64/lib/net8.0/"/>
         <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.Scripts.dll" target="runtimes/win-x64/lib/net8.0/"/>
         <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3D.dll" target="runtimes/win-x64/native/"/>
+        <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DCSharp.dll" target="runtimes/win-x64/native/"/>
     </files>
 </package>

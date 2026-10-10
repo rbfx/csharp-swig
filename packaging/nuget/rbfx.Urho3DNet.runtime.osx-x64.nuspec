@@ -19,5 +19,6 @@
         <file src="in/rebelfork-sdk-macos-clang-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.dll" target="runtimes/osx-x64/lib/net8.0/"/>
         <file src="in/rebelfork-sdk-macos-clang-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.Scripts.dll" target="runtimes/osx-x64/lib/net8.0/"/>
         <file src="in/rebelfork-sdk-macos-clang-x64-dll-latest/bin/RelWithDebInfo/libUrho3D.dylib" target="runtimes/osx-x64/native/" />
+        <file src="in/rebelfork-sdk-macos-clang-x64-dll-latest/bin/RelWithDebInfo/libUrho3DCSharp.dylib" target="runtimes/osx-x64/native/" />
     </files>
 </package>

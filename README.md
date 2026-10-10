@@ -77,7 +77,21 @@ An external C++ plugin finds the bindings with `find_package`:
 - Not verified: Windows, macOS, Android.
 - Not supported by this build yet: static engine, iOS, Web, UWP. These platforms need the wrapper inside the host binary.
 
+## NuGet packages
+
+The scripts are in `packaging/nuget`. They need an engine SDK and a bindings SDK for each platform.
+Build the engine SDK with `URHO3D_NO_EDITOR_PLAYER_EXE=ON`.
+
+```
+cd packaging/nuget
+./package.sh merge -p linux-gcc-x64 -e <engine sdk dir> -b <bindings sdk dir> -s <engine source dir>
+./package.sh create -v 0.0.1-dev
+./package.sh local-repo
+```
+
+`merge` makes `in/rebelfork-sdk-<platform>-dll-latest/`. `create` packs the packages in `out/`.
+`create` skips each package that has no input directory. If `nuget` is absent, the script uses `dotnet pack`.
+
 ## Known open items
 
-- `packaging/nuget` and `.github/workflows/nuget.yml` come from the engine. They still expect engine paths.
-- The target `autoswig` in `script/Makefile` names `AutoSwig/autoswig.py`. This file does not exist.
+- `.github/workflows/nuget.yml` is not adapted to this repository. Only `linux-x64` is verified for the NuGet packages.

@@ -15,8 +15,8 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="../packaging/nuget/build/rbfx.EditorData.targets" target="build/" />
-        <file src="../packaging/nuget/build/rbfx.EditorData.targets" target="buildTransitive/" />
+        <file src="$pkdir$/build/rbfx.EditorData.targets" target="build/" />
+        <file src="$pkdir$/build/rbfx.EditorData.targets" target="buildTransitive/" />
         <file src="EditorData/**" target="content/EditorData/" />
     </files>
 </package>

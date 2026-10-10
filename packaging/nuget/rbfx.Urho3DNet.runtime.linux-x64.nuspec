@@ -19,5 +19,6 @@
         <file src="in/rebelfork-sdk-linux-gcc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.dll" target="runtimes/linux-x64/lib/net8.0/"/>
         <file src="in/rebelfork-sdk-linux-gcc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.Scripts.dll" target="runtimes/linux-x64/lib/net8.0/"/>
         <file src="in/rebelfork-sdk-linux-gcc-x64-dll-latest/bin/RelWithDebInfo/libUrho3D.so" target="runtimes/linux-x64/native/" />
+        <file src="in/rebelfork-sdk-linux-gcc-x64-dll-latest/bin/RelWithDebInfo/libUrho3DCSharp.so" target="runtimes/linux-x64/native/" />
     </files>
 </package>

@@ -1,2 +1,5 @@
 nuget.exe
 build/rbfx.Urho3DNet.props
+/in/
+/out/
+/local-repository/

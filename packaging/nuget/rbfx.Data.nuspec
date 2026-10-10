@@ -12,8 +12,8 @@
         <tags>rbfx Urho3D gamedev csharp dotnet game engine</tags>
     </metadata>
     <files>
-        <file src="../packaging/nuget/build/rbfx.Data.targets" target="build/" />
-        <file src="../packaging/nuget/build/rbfx.Data.targets" target="buildTransitive/" />
+        <file src="$pkdir$/build/rbfx.Data.targets" target="build/" />
+        <file src="$pkdir$/build/rbfx.Data.targets" target="buildTransitive/" />
         <file src="Data/**" target="content/Data/" />
     </files>
 </package>
