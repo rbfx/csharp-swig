@@ -36,8 +36,6 @@ endif ()
 
 project(swig)
 
-set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME Tools)
-
 add_subdirectory(pcre)
 
 check_include_file(inttypes.h     HAVE_INTTYPES_H)
