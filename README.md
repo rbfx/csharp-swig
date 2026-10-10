@@ -6,7 +6,8 @@ the managed assembly `Urho3DNet`, and the C# tools, samples and tests.
 
 ## Requirements
 
-- An rbfx engine built with `URHO3D_SCRIPT_RUNTIME=ON`, `URHO3D_MONOLITHIC_HEADER=ON`, `URHO3D_NO_EDITOR_PLAYER_EXE=ON` and shared libraries.
+- An rbfx engine built with `URHO3D_SCRIPT_RUNTIME=ON`, `URHO3D_MONOLITHIC_HEADER=ON` and shared libraries.
+  The option `URHO3D_NO_EDITOR_PLAYER_EXE=ON` is necessary only for the in-tree form.
 - The dotnet SDK.
 - CMake 3.25 or newer and Ninja.
 - bison is optional. The generated SWIG parser is in the repository. bison is only needed if it is missing.
@@ -47,9 +48,9 @@ and `bin/<Configuration>/` for a multi-config generator.
 - `Source/Samples/` - C# samples and a C# plugin.
 - `Source/Tests/` - the C# unit tests.
 - `ThirdParty/` - the SWIG generator (`swig`).
-- `script/` - `run-dotnet.sh` and a Makefile.
+- `script/` - `run-dotnet.sh`, `ci.sh` and a Makefile.
 - `packaging/` - NuGet packaging files.
-- `.github/` - the CI workflow for NuGet.
+- `.github/` - the CI workflows for the build and for NuGet.
 
 ## Use in a plugin
 
@@ -92,6 +93,21 @@ cd packaging/nuget
 `merge` makes `in/rebelfork-sdk-<platform>-dll-latest/`. `create` packs the packages in `out/`.
 `create` skips each package that has no input directory. If `nuget` is absent, the script uses `dotnet pack`.
 
+## CI
+
+The workflow `.github/workflows/build.yml` downloads `rebelfork-sdk-<tag>-latest.7z` from the release `latest` of `rbfx/rbfx`.
+It builds the bindings with `script/ci.sh`.
+On a push to `master`, it publishes `rebelfork-csharp-sdk-<tag>-latest.7z` to the release `latest` of this repository.
+
+The inputs `rbfx_repository` and `rbfx_release` select a different engine release.
+The repository variables `RBFX_REPOSITORY` and `RBFX_RELEASE` do the same.
+
+To run the same steps on a local machine:
+
+```
+script/ci.sh all --engine-sdk <dir> --install-dir <dir>
+```
+
 ## Known open items
 
-- `.github/workflows/nuget.yml` is not adapted to this repository. Only `linux-x64` is verified for the NuGet packages.
+- The Windows and macOS jobs and `nuget.yml` are not verified on a runner. Only `linux-x64` is verified for the NuGet packages.

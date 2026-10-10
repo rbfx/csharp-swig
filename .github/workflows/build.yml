@@ -1,0 +1,160 @@
+name: Build
+
+# Downloads the latest engine SDK of each platform and builds the C# bindings against it.
+
+on:
+  push:
+    branches-ignore:
+      - 'no-ci-**'
+      - 'skip-ci-**'
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      rbfx_repository:
+        description: 'Engine repository that holds the SDK release'
+        required: false
+        default: 'rbfx/rbfx'
+        type: string
+      rbfx_release:
+        description: 'Release tag of the engine SDK'
+        required: false
+        default: 'latest'
+        type: string
+
+env:
+  RBFX_REPOSITORY: ${{ inputs.rbfx_repository || vars.RBFX_REPOSITORY || 'rbfx/rbfx' }}
+  RBFX_RELEASE: ${{ inputs.rbfx_release || vars.RBFX_RELEASE || 'latest' }}
+  DOTNET_VERSION: '8.0'
+  DOTNET_NOLOGO: '1'
+  DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  Build:
+    name: ${{ matrix.ci_platform_tag }}
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ${{ matrix.runs_on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ci_platform_tag: linux-gcc-x64-dll
+            runs_on: ubuntu-latest
+            run_tests: 'true'
+          - ci_platform_tag: windows-msvc-x64-dll
+            runs_on: windows-latest
+            run_tests: 'true'
+          - ci_platform_tag: macos-clang-x64-dll
+            runs_on: macos-latest
+            osx_architectures: x86_64
+            run_tests: 'false'
+          - ci_platform_tag: macos-clang-arm64-dll
+            runs_on: macos-latest
+            osx_architectures: arm64
+            run_tests: 'false'
+    steps:
+      - name: Checkout rbfx-csharp
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Download engine SDK
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SDK_ASSET: rebelfork-sdk-${{ matrix.ci_platform_tag }}-${{ env.RBFX_RELEASE }}.7z
+        run: |
+          mkdir -p engine-download engine-sdk
+          gh release download "$RBFX_RELEASE" \
+            --repo "$RBFX_REPOSITORY" \
+            --pattern "$SDK_ASSET" \
+            --dir engine-download
+          7z x -y "engine-download/${SDK_ASSET}" -o"engine-sdk" >/dev/null
+          rm -rf engine-download
+
+      - name: Prepare rbfx environment
+        uses: rbfx/ci/.github/actions/ci-prepare-platform@v1
+        with:
+          profile: downstream
+          ci_platform_tag: ${{ matrix.ci_platform_tag }}
+          cmake_prefix_path: |
+            ${{ github.workspace }}/engine-sdk/rebelfork-sdk-${{ matrix.ci_platform_tag }}-${{ env.RBFX_RELEASE }}
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install Ninja on macOS
+        if: runner.os == 'macOS'
+        run: brew install ninja
+
+      - name: Configure
+        env:
+          CI_OSX_ARCHITECTURES: ${{ matrix.osx_architectures }}
+        run: script/ci.sh configure --build-dir cmake-build/ci
+
+      - name: Build
+        run: script/ci.sh build --build-dir cmake-build/ci
+
+      - name: Test (Managed)
+        if: matrix.run_tests == 'true'
+        run: script/ci.sh test --build-dir cmake-build/ci
+
+      - name: Install bindings SDK
+        run: |
+          name="rebelfork-csharp-sdk-${{ matrix.ci_platform_tag }}-latest"
+          script/ci.sh install --build-dir cmake-build/ci --install-dir "dist/${name}"
+
+      - name: Pack bindings SDK
+        run: |
+          name="rebelfork-csharp-sdk-${{ matrix.ci_platform_tag }}-latest"
+          cd dist
+          7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=32m -ms=on "${name}.7z" "${name}" >/dev/null
+
+      - name: Upload bindings SDK artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: csharp-sdk-${{ matrix.ci_platform_tag }}
+          path: dist/rebelfork-csharp-sdk-${{ matrix.ci_platform_tag }}-latest.7z
+          if-no-files-found: error
+
+  Release:
+    name: Release 'latest'
+    needs: [Build]
+    # Publish also when a platform fails. The NuGet workflow needs all platforms and fails if one is absent.
+    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download bindings SDK artifacts
+        uses: actions/download-artifact@v5
+        with:
+          pattern: csharp-sdk-*
+          path: sdk-archives
+          merge-multiple: true
+
+      - name: Upload to release 'latest'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          shopt -s nullglob
+          archives=(sdk-archives/*.7z)
+          if [[ ${#archives[@]} -eq 0 ]]; then
+            echo "Error: no bindings SDK archives." >&2
+            exit 1
+          fi
+          if ! gh release view latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release create latest --repo "${{ github.repository }}" \
+              --target "${{ github.sha }}" --prerelease \
+              --title "Latest Build" --notes "Latest C# bindings SDKs."
+          fi
+          gh release upload latest "${archives[@]}" \
+            --repo "${{ github.repository }}" --clobber

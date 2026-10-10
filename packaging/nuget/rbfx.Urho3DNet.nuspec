@@ -25,8 +25,6 @@
         <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.dll" target="ref/net8.0/"/>
         <file src="in/rebelfork-sdk-windows-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.Scripts.dll" target="ref/net8.0/"/>
 
-        <file src="in/rebelfork-sdk-uwp-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.dll" target="ref/netstandard2.0/"/>
-        <file src="in/rebelfork-sdk-uwp-msvc-x64-dll-latest/bin/RelWithDebInfo/Urho3DNet.Scripts.dll" target="ref/netstandard2.0/"/>
 
         <!-- Runtime-specific implementations are shipped by rbfx.Urho3DNet.runtime.* packages -->
         <!--
