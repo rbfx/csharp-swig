@@ -1,0 +1,37 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "linux-in-tree",
+      "displayName": "Linux, engine built in tree",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build/linux-in-tree",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "BUILD_SHARED_LIBS": "ON",
+        "Urho3D_DIR": "${sourceDir}/../rbfx/CMake/Urho3D/share/Urho3D",
+        "URHO3D_PLAYER": "ON",
+        "URHO3D_EDITOR": "ON",
+        "URHO3D_NO_EDITOR_PLAYER_EXE": "ON",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "linux-sdk",
+      "displayName": "Linux, installed Urho3D SDK (set URHO3D_SDK)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build/linux-sdk",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "BUILD_SHARED_LIBS": "ON",
+        "CMAKE_PREFIX_PATH": "$env{URHO3D_SDK}",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    }
+  ]
+}

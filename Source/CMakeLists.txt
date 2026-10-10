@@ -1,0 +1,10 @@
+option(URHO3DNET_BUILD_TESTS   "Build the managed tests"  ON)
+option(URHO3DNET_BUILD_SAMPLES "Build the C# samples"     ON)
+option(URHO3DNET_BUILD_TOOLS   "Build the C# tools"       ON)
+
+add_subdirectory(Urho3DNet)
+add_subdirectory(Player)
+add_subdirectory(Editor)
+add_subdirectory(Samples)
+add_subdirectory(Tests)
+add_subdirectory(Tools)
