@@ -49,7 +49,12 @@ configure() {
 }
 
 build() {
-    cmake --build "$(native-path "$build_dir")" --config "$config" --parallel
+    local extra=()
+    # The Visual Studio generator does not restore NuGet packages of external C# projects.
+    if is-windows; then
+        extra=(-- -restore)
+    fi
+    cmake --build "$(native-path "$build_dir")" --config "$config" --parallel ${extra[@]+"${extra[@]}"}
 }
 
 run-test() {
