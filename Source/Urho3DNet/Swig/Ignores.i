@@ -48,6 +48,7 @@
 %ignore Urho3D::Actions::SetAttributeState::SetAttributeState;
 %ignore Urho3D::Actions::FiniteTimeActionState::FiniteTimeActionState;
 %ignore Urho3D::Actions::AttributeActionState::AttributeActionState;
+%ignore Urho3D::Actions::ActionInstantState::ActionInstantState;
 %ignore Urho3D::SerializeValue(Archive&, const char*, SharedPtr<Actions::BaseAction>&);
 %ignore Urho3D::SerializeValue(Archive&, const char*, SharedPtr<Actions::FiniteTimeAction>&);
 %ignore Urho3D::SharedReplicationState;
