@@ -129,7 +129,7 @@ jobs:
     name: Release 'latest'
     needs: [Build]
     # Publish also when a platform fails. The NuGet workflow needs all platforms and fails if one is absent.
-    if: ${{ !cancelled() && github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: ${{ !cancelled() && github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/rk/split-csharp') }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
