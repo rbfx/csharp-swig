@@ -4,8 +4,9 @@ if (NOT TARGET PlayerLibrary)
     return ()
 endif ()
 
-# Native part: a module with the CreateApplication entry point, loaded by the managed host.
-add_library (libPlayer MODULE PlayerHost.cpp)
+# Native part: a library with the CreateApplication entry point, loaded by the managed host.
+# It is SHARED, not MODULE: MODULE gets the .so suffix on macOS and DllImport("libPlayer") does not find it there.
+add_library (libPlayer SHARED PlayerHost.cpp)
 set_target_properties(libPlayer PROPERTIES PREFIX "")
 target_link_libraries(libPlayer PUBLIC PlayerLibrary)
 if (COMMAND target_link_plugins)

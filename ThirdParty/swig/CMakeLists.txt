@@ -75,9 +75,6 @@ add_executable(swig ${SWIG_SOURCES})
 target_link_libraries(swig PUBLIC pcre)
 target_include_directories(swig PRIVATE Source/CParse Source/DOH Source/Include Source/Modules Source/Preprocessor Source/Swig ${CMAKE_CURRENT_BINARY_DIR})
 
-if (COMMAND install_third_party_tools)
-  install_third_party_tools(swig)
-endif()
 # Package consumers run the executable from a fixed location. See SWIG_EXECUTABLE in Urho3DNetCommon.cmake.
 install(TARGETS swig RUNTIME DESTINATION ${CMAKE_INSTALL_DATADIR}/Urho3DNet/bin)
 
