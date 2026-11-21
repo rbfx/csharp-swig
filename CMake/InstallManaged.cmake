@@ -17,6 +17,9 @@ file (GLOB_RECURSE INSTALL_FILES
     ${MANAGED_BINARY_DIR}/bin/*.pdb
 )
 
+# Test frameworks are not part of the SDK.
+list (FILTER INSTALL_FILES EXCLUDE REGEX "/(xunit|testhost|Microsoft\\.TestPlatform|Microsoft\\.VisualStudio|Microsoft\\.Testing)[^/]*$")
+
 foreach (file ${INSTALL_FILES})
     set (SOURCE_FILE ${MANAGED_BINARY_DIR}/${file})
     set (DEST_FILE ${CMAKE_INSTALL_PREFIX}/${file})
