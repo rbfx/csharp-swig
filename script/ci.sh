@@ -50,8 +50,12 @@ configure() {
 
 build() {
     local extra=()
-    # The Visual Studio generator does not restore NuGet packages of external C# projects.
     if is-windows; then
+        # ALL_BUILD ignores solution-level project dependencies, so MSBuild compiles the C# projects
+        # in parallel with SWIG. Build the native wrappers first to generate the C# sources.
+        cmake --build "$(native-path "$build_dir")" --config "$config" --parallel \
+            --target Urho3DCSharp libEditorWrapper libPlayer Urho3DNetTestsLib
+        # The Visual Studio generator does not restore NuGet packages of external C# projects.
         extra=(-- -restore)
     fi
     cmake --build "$(native-path "$build_dir")" --config "$config" --parallel ${extra[@]+"${extra[@]}"}
