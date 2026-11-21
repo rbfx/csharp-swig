@@ -46,6 +46,8 @@
 %ignore Urho3D::Actions::ActionState::Update;
 %ignore Urho3D::Actions::AttributeBlinkState::AttributeBlinkState;
 %ignore Urho3D::Actions::SetAttributeState::SetAttributeState;
+%ignore Urho3D::Actions::FiniteTimeActionState::FiniteTimeActionState;
+%ignore Urho3D::Actions::AttributeActionState::AttributeActionState;
 %ignore Urho3D::SerializeValue(Archive&, const char*, SharedPtr<Actions::BaseAction>&);
 %ignore Urho3D::SerializeValue(Archive&, const char*, SharedPtr<Actions::FiniteTimeAction>&);
 %ignore Urho3D::SharedReplicationState;
@@ -63,8 +65,7 @@
 %ignore Urho3D::ParticleGraphPin::SetSource;
 %ignore Urho3D::ParticleGraphPin::WithType;
 %ignore Urho3D::ParticleGraphSpan::ParticleGraphSpan;
-%ignore Urho3D::ParticleGraphLayer::AttributeBufferLayout::EvaluateLayout;
-%ignore Urho3D::ParticleGraphLayer::AttributeBufferLayout::AttributeBufferLayout;
+%ignore Urho3D::ParticleGraphLayer::AttributeBufferLayout;
 %ignore Urho3D::ConvexData::ConvexData;
 %ignore Urho3D::ConvexData::BuildHull;
 %ignore Urho3D::GImpactMeshData::GImpactMeshData;
