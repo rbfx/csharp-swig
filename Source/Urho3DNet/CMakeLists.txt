@@ -61,6 +61,7 @@ install (TARGETS Urho3DCSharp
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 # Install the managed assemblies that C# builds produce. CMake does not know these files.
+install (CODE "set (MANAGED_BINARY_DIR \"${CMAKE_BINARY_DIR}\")")
 install (SCRIPT ${Urho3DNet_SOURCE_DIR}/CMake/InstallManaged.cmake)
 # Export file of the package. Urho3DNetConfig.cmake includes it.
 install (EXPORT Urho3DNet DESTINATION ${CMAKE_INSTALL_DATADIR}/Urho3DNet/CMake FILE Urho3DNet.cmake)
