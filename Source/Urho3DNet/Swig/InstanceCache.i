@@ -7,6 +7,7 @@
   private bool swigCMemOwn;
   [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
   private static global::Urho3DNet.InstanceCache<$csclassname> _instanceCache = new global::Urho3DNet.InstanceCache<$csclassname>();
+  static $csclassname() { global::Urho3DNet.SwigTypeRegistryMerge.Ensure(typeof($imclassname), $imclassname.SWIGInitializeTypeRegistry, () => $imclassname.SWIGTypeRegistry); }
   public static $csclassname wrap(global::System.IntPtr cPtr, bool cMemoryOwn)
   {
     if (cPtr == global::System.IntPtr.Zero)
@@ -40,6 +41,7 @@
   private bool swigCMemOwn;
   [global::System.Diagnostics.DebuggerBrowsable(global::System.Diagnostics.DebuggerBrowsableState.Never)]
   private static global::Urho3DNet.InstanceCache<$csclassname> _instanceCache = new global::Urho3DNet.InstanceCache<$csclassname>();
+  static $csclassname() { global::Urho3DNet.SwigTypeRegistryMerge.Ensure(typeof($imclassname), $imclassname.SWIGInitializeTypeRegistry, () => $imclassname.SWIGTypeRegistry); }
   public new static $csclassname wrap(global::System.IntPtr cPtr, bool cMemoryOwn)
   {
     if (cPtr == global::System.IntPtr.Zero)
