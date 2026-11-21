@@ -38,3 +38,44 @@
 %ignore Urho3D::UIBatchStateCacheCallback::CreateUIBatchPipelineState;
 %ignore Urho3D::XMLFile::SaveObjectCallback;
 %ignore Urho3D::XMLFile::LoadObjectCallback;
+
+// The engine symbols below are not exported on Windows DLL builds: the engine header lacks URHO3D_API.
+// The wrapper must not reference them, or the link of Urho3DCSharp.dll fails.
+// The ignores apply to all platforms.
+%ignore Urho3D::Actions::ActionState::Stop;
+%ignore Urho3D::Actions::ActionState::Update;
+%ignore Urho3D::Actions::AttributeBlinkState::AttributeBlinkState;
+%ignore Urho3D::Actions::SetAttributeState::SetAttributeState;
+%ignore Urho3D::SerializeValue(Archive&, const char*, SharedPtr<Actions::BaseAction>&);
+%ignore Urho3D::SerializeValue(Archive&, const char*, SharedPtr<Actions::FiniteTimeAction>&);
+%ignore Urho3D::SharedReplicationState;
+%ignore Urho3D::ClientSynchronizationState::ClientSynchronizationState;
+%ignore Urho3D::ClientSynchronizationState::BeginNetworkFrame;
+%ignore Urho3D::ClientReplicationState::ClientReplicationState;
+%ignore Urho3D::ClientReplicationState::ProcessMessage;
+%ignore Urho3D::ClientReplicationState::SendMessages;
+%ignore Urho3D::ClientReplicationState::UpdateNetworkObjects;
+%ignore Urho3D::SoftNetworkTime::SoftNetworkTime;
+%ignore Urho3D::SoftNetworkTime::Update;
+%ignore Urho3D::SoftNetworkTime::Reset;
+%ignore Urho3D::ParticleGraphPin::ParticleGraphPin;
+%ignore Urho3D::ParticleGraphPin::GetConnected;
+%ignore Urho3D::ParticleGraphPin::SetSource;
+%ignore Urho3D::ParticleGraphPin::WithType;
+%ignore Urho3D::ParticleGraphSpan::ParticleGraphSpan;
+%ignore Urho3D::ParticleGraphLayer::AttributeBufferLayout::EvaluateLayout;
+%ignore Urho3D::ParticleGraphLayer::AttributeBufferLayout::AttributeBufferLayout;
+%ignore Urho3D::ConvexData::ConvexData;
+%ignore Urho3D::ConvexData::BuildHull;
+%ignore Urho3D::GImpactMeshData::GImpactMeshData;
+%ignore Urho3D::TriangleMeshData::TriangleMeshData;
+%ignore Urho3D::HeightfieldData::HeightfieldData;
+%ignore Urho3D::PrefabNormalizer;
+%ignore Urho3D::ShadowMapRegion::GetSplit;
+%ignore Urho3D::RenderPipelineSettings::AdjustForRenderPath;
+%ignore Urho3D::RenderPipelineSettings::AdjustToSupported;
+%ignore Urho3D::RenderPipelineSettings::PropagateImpliedSettings;
+%ignore Urho3D::GetVariantTypeSize;
+%ignore Urho3D::GetTextureFormatInfo;
+%ignore Urho3D::Detail::InsertVariablePlaceholders;
+%ignore ImGuiSelectionBasicStorage::ImGuiSelectionBasicStorage;
